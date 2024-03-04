@@ -1,10 +1,14 @@
 import 'package:fbroadcast/fbroadcast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:ott_code_frontend/api/api.dart';
 import 'package:ott_code_frontend/common/color_extension.dart';
 import 'package:ott_code_frontend/common_widgets/rounded_button.dart';
 import 'package:ott_code_frontend/enviorment_var.dart';
+import 'package:ott_code_frontend/models/Casts.dart';
 import 'package:ott_code_frontend/models/Movie.dart';
+import 'package:ott_code_frontend/view/home/casts_slider.dart';
+import 'package:ott_code_frontend/view/home/genres.dart';
 
 class MovieDetailsView extends StatefulWidget {
   const MovieDetailsView({super.key, required this.movie});
@@ -16,29 +20,14 @@ class MovieDetailsView extends StatefulWidget {
 
 class _MovieDetailsViewState extends State<MovieDetailsView> {
   late Movie _movie;
-  List castArr = [
-    {
-      "name": "Isabela Moner",
-      "image": "",
-    },
-    {
-      "name": "Michael Peña",
-      "image": "assets/images/MichaelPena.png",
-    },
-    {
-      "name": "Eva Longoria",
-      "image": "assets/images/EvaLongoria.png",
-    },
-    {
-      "name": "Eugenio Derbez",
-      "image": "",
-    },
-  ];
+  late Future<List<Casts>> movieCasts;
 
   @override
   void initState() {
     super.initState();
     _movie = widget.movie;
+    movieCasts = Api().getMovieCasts(_movie.id);
+
     FBroadcast.instance().register("change_mode", (value, callback) {
       if (mounted) {
         setState(() {});
@@ -117,60 +106,7 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
                           const SizedBox(
                             height: 8,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Movie",
-                                style: TextStyle(
-                                    color: ApplicationColor.text,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              Text(
-                                " | ",
-                                style: TextStyle(
-                                    color: ApplicationColor.text,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              Text(
-                                "Adventure",
-                                style: TextStyle(
-                                    color: ApplicationColor.text,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              Text(
-                                " | ",
-                                style: TextStyle(
-                                    color: ApplicationColor.text,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              Text(
-                                "Comedy",
-                                style: TextStyle(
-                                    color: ApplicationColor.text,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              Text(
-                                " | ",
-                                style: TextStyle(
-                                    color: ApplicationColor.text,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              Text(
-                                "Family",
-                                style: TextStyle(
-                                    color: ApplicationColor.text,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ],
-                          ),
+                          Genres(),
                         ],
                       ),
                     )
@@ -247,51 +183,25 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
                       ]),
                 ),
                 SizedBox(
-                  height: (media.width * 0.34) + 40,
-                  child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: castArr.length,
-                      itemBuilder: (context, index) {
-                        var cObj = castArr[index] as Map? ?? {};
-                        var image = cObj["image"].toString();
-
-                        return InkWell(
-                          onTap: () {},
-                          child: Column(
-                            children: [
-                              Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 6),
-                                color: ApplicationColor.bgColor,
-                                width: media.width * 0.25,
-                                height: media.width * 0.32,
-                                child: image != ""
-                                    ? ClipRect(
-                                        child: Image.asset(
-                                          image,
-                                          width: media.width * 0.25,
-                                          height: media.width * 0.32,
-                                          fit: BoxFit.contain,
-                                        ),
-                                      )
-                                    : null,
-                              ),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Text(
-                                cObj["name"].toString(),
-                                style: TextStyle(
-                                  color: ApplicationColor.text,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
+                  child: FutureBuilder(
+                    future: movieCasts,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return const Center(
+                          child: Text("Some error occured"),
                         );
-                      }),
+                      } else if (snapshot.hasData) {
+                        return CastsSliders(
+                          media: media,
+                          snapshot: snapshot,
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  ),
                 ),
               ],
             ),

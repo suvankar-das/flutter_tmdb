@@ -1,4 +1,5 @@
 class Movie {
+  int id;
   String title;
   String backDropPath;
   String originalTitle;
@@ -9,6 +10,7 @@ class Movie {
 
   //named constructor
   Movie({
+    required this.id,
     required this.title,
     required this.backDropPath,
     required this.originalTitle,
@@ -21,6 +23,7 @@ class Movie {
   // mapping json to field
   factory Movie.fromJson(Map<String, dynamic> json) {
     return Movie(
+        id: json["id"] as int,
         title: json["title"],
         backDropPath: json["backdrop_path"],
         originalTitle: json["original_title"],
