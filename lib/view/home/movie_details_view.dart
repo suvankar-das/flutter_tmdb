@@ -9,6 +9,7 @@ import 'package:ott_code_frontend/models/Casts.dart';
 import 'package:ott_code_frontend/models/Movie.dart';
 import 'package:ott_code_frontend/view/home/casts_slider.dart';
 import 'package:ott_code_frontend/view/home/genres.dart';
+import 'package:ott_code_frontend/view/home/movie_player.dart';
 
 class MovieDetailsView extends StatefulWidget {
   const MovieDetailsView({super.key, required this.movie});
@@ -162,6 +163,13 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
                     height: 40,
                     onPressed: () {
                       //TODO Play
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              MoviePlayer(), // Use MoviePlayer here
+                        ),
+                      );
                     },
                   ),
                 ),

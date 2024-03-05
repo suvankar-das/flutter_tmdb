@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">exo_dem</string>
     <string name="content_url"><![CDATA[https://storage.googleapis.com/gvabox/media/samples/stock.mp4]]></string>
-    <string name="ad_tag_url"><![CDATA[https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/vmap_ad_samples&sz=640x480&cust_params=sample_ar%3Dpremidpostpod&ciu_szs=300x250&gdfp_req=1&ad_rule=1&output=vmap&unviewed_position_start=1&env=vp&impl=s&cmsid=496&vid=short_onecue&correlator=]]></string>
+    <string name="ad_tag_url"><![CDATA[http://googleads.g.doubleclick.net/pageid/conversion/?ai=BYjRF3nOCTrCYG8_a-gbhkeDyAaKNvgYC6tiCpyDAjbcBsNsGEAIAQGyAQ93d3cueW91dHViZS5jb23IAQXaAShodHRwOi8vd3d3LnlvdXR1YmUuY29tL3ZpZGVvL3NFaHktU1hrTm8wuAIMyALS9s0eqAMBsAP]]></string>
 
 </resources>
 

@@ -114,7 +114,7 @@ internal class NativeView(context: Context, id: Int, creationParams: Map<String?
         val url = creationParams as Map<String?, Any?>?
         val contentUri = Uri.parse(url?.get("videoURL") as String?)
         val adTagUri = Uri.parse("https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_ad_samples&sz=640x480&cust_params=sample_ct%3Dlinear&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=")
-        
+        //val adTagUri = Uri.parse("http://googleads.g.doubleclick.net/pageid/conversion/?ai=BYjRF3nOCTrCYG8_a-gbhkeDyAaKNvgYC6tiCpyDAjbcBsNsGEAIAQGyAQ93d3cueW91dHViZS5jb23IAQXaAShodHRwOi8vd3d3LnlvdXR1YmUuY29tL3ZpZGVvL3NFaHktU1hrTm8wuAIMyALS9s0eqAMBsAP")
 
         var adPlaybackState = AdPlaybackState(0, 500 * C.MICROS_PER_SECOND)
         adPlaybackState = adPlaybackState.withAdUri(0, 0, adTagUri)
